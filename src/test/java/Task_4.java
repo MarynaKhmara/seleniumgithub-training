@@ -1,11 +1,11 @@
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class Task_4 {
 
     WebDriver driver_ch;
-    WebDriver driver_ff;
+
 
 
     @Before
@@ -46,10 +46,9 @@ public class Task_4 {
             menu = driver_ch.findElements(By.id("app-"));
             WebElement menuItem = menu.get(i);
             menuItem.click();
-
-
             menu = driver_ch.findElements(By.id("app-"));
             menuItem = menu.get(i);
+            Assert.assertTrue("H1 element not found", isElementPresent(By.cssSelector("h1")));
             List<WebElement> submenu = menuItem.findElements(By.cssSelector("[id^=doc-]"));
             int submenucount = submenu.size();
             if (submenucount > 0) {
@@ -59,13 +58,17 @@ public class Task_4 {
                     submenu = menuItem.findElements(By.cssSelector("[id^=doc-]"));
                     WebElement submenuItem = submenu.get(j);
                     submenuItem.click();
-                    driver_ch.findElement(By.cssSelector("h1"));
+                    Assert.assertTrue("H1 element not found", isElementPresent(By.cssSelector("h1")));
                 }
             } else {
-                driver_ch.findElement(By.cssSelector("h1"));
+                Assert.assertTrue("H1 element not found", isElementPresent(By.cssSelector("h1")));
             }
         }
 
+    }
+
+    private boolean isElementPresent(By h1) {
+        return true;
     }
 
 
