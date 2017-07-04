@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class Task_5 {
 
     WebDriver driver_ch;
+    String MainPage = "http://localhost/litecart/";
 
 
     @Before
@@ -22,19 +23,52 @@ public class Task_5 {
 
     @Test
     public void google_test_ch() throws InterruptedException {
-        driver_ch.get("http://localhost/litecart/");
-
-        WebElement duck = driver_ch.findElement(By.xpath("//*[@id=\"box-campaign-products\"]/div/div/div/a/div[2]/div[1]"));
-        duck.click();
+        driver_ch.get(MainPage);
 
 
-        WebElement yellow_duck = driver_ch.findElement(By.xpath("//*[@id=\"box-product\"]/div[1]/div[2]/h1"));
-        Assert.assertEquals(duck, yellow_duck);
+        //Verify product name
+        WebElement mainName = driver_ch.findElement(By.cssSelector("a.link"));
+        String productName1 = mainName.findElement(By.cssSelector(".name")).getText();
+        String regularMainPrice = driver_ch.findElement(By.cssSelector(".regular-price")).getText();
+        String regularGrayPrice = driver_ch.findElement(By.cssSelector(".regular-price")).getCssValue("color");
+        String regularStrikePrice = driver_ch.findElement(By.cssSelector(".regular-price")).getCssValue("strike");
+
+        String campaignMainPrice = driver_ch.findElement(By.cssSelector(".campaign-price")).getText();
+        String redColorMainCampaign = driver_ch.findElement(By.cssSelector(".campaign-price")).getCssValue("color");
+        String boldMainCampaign = driver_ch.findElement(By.cssSelector(".campaign-price")).getCssValue("text-decoration");
+
+        mainName.click();
+
+
+        WebElement itemName = driver_ch.findElement(By.cssSelector("[id=box-product]"));
+        String productName2 = itemName.findElement(By.cssSelector(".title")).getText();
+        String regularItemPrice = driver_ch.findElement(By.cssSelector(".regular-price")).getText();
+        String regularItemGrayPrice = driver_ch.findElement(By.cssSelector(".regular-price")).getCssValue("color");
+        String regularItemStrikePrice = driver_ch.findElement(By.cssSelector(".campaign-price")).getCssValue("strike");
+
+        String campaignItemPrice = driver_ch.findElement(By.cssSelector(".campaign-price")).getText();
+        String redColorBoldCampaign = driver_ch.findElement(By.cssSelector(".campaign-price")).getCssValue("color");
+        String itemBoldCampaign = driver_ch.findElement(By.cssSelector(".campaign-price")).getCssValue("text-decoration");
+
+
+        Assert.assertEquals(productName1, productName2);
+        Assert.assertEquals(regularMainPrice, regularItemPrice);
+        Assert.assertEquals(regularGrayPrice, regularItemGrayPrice);
+        Assert.assertEquals(regularStrikePrice, regularItemStrikePrice);
+        Assert.assertEquals(campaignMainPrice, campaignItemPrice);
+        Assert.assertEquals(redColorMainCampaign, redColorBoldCampaign);
+        Assert.assertEquals(boldMainCampaign, itemBoldCampaign);
+
     }
 
 
     @After
-    public void stop_ff() {
+    public void stop() {
+
         driver_ch.quit();
+
     }
+
 }
+
+
