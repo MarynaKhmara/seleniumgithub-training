@@ -17,6 +17,7 @@ public class Task_5 {
 
     @Before
     public void start() {
+
         driver_ch = new ChromeDriver();
         driver_ch.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
     }
@@ -25,8 +26,7 @@ public class Task_5 {
     public void google_test_ch() throws InterruptedException {
         driver_ch.get(MainPage);
 
-
-        //Verify product name
+        
         WebElement mainName = driver_ch.findElement(By.cssSelector("a.link"));
         String productName1 = mainName.findElement(By.cssSelector(".name")).getText();
         String regularMainPrice = driver_ch.findElement(By.cssSelector(".regular-price")).getText();
