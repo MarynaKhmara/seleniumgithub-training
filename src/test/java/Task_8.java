@@ -70,7 +70,7 @@ public class Task_8 {
 
 
 
-      public ExpectedCondition<String> anyWindowOtherThan(Set < String)> windows){
+      public ExpectedCondition<String> anyWindowOtherThan(Set<String> windows){
 
             return new ExpectedCondition<String>() {
 
