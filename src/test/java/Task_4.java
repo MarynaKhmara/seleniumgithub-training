@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +22,7 @@ public class Task_4 {
     @Before
     public void start() {
         driver_ch = new ChromeDriver();
-        driver_ch.manage().timeouts().implicitlyWait(5 , TimeUnit.SECONDS);
+        driver_ch.manage().timeouts().implicitlyWait(2 , TimeUnit.SECONDS);
     }
 
     @Test
@@ -37,43 +39,33 @@ public class Task_4 {
 
         WebElement login = driver_ch.findElement(By.name("login"));
         login.submit();
+        WebDriverWait wait = new WebDriverWait(driver_ch, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"shortcuts\"]/a[5]/i")));
 
+        List<WebElement> menu = driver_ch.findElements(By.xpath(".//li[@id='app-']"));
 
-        List<WebElement> menu = driver_ch.findElements(By.id("app-"));
-
-        int menucount = menu.size();
-        for (int i = 0; i < menucount; i++) {
-            menu = driver_ch.findElements(By.id("app-"));
-            WebElement menuItem = menu.get(i);
+        for (int i = 0; i < menu.size(); i++) {
+            WebElement menuItem = driver_ch.findElement(By.xpath(".//li[@id='app-']["+(i+1)+"]"));
             menuItem.click();
-            menu = driver_ch.findElements(By.id("app-"));
-            menuItem = menu.get(i);
             Assert.assertTrue("H1 element not found", isElementPresent(By.cssSelector("h1")));
-            List<WebElement> submenu = menuItem.findElements(By.cssSelector("[id^=doc-]"));
-            int submenucount = submenu.size();
-            if (submenucount > 0) {
-                for (int j = 0; j < submenucount; j++) {
-                    menu = driver_ch.findElements(By.id("app-"));
-                    menuItem = menu.get(i);
-                    submenu = menuItem.findElements(By.cssSelector("[id^=doc-]"));
-                    WebElement submenuItem = submenu.get(j);
+            List<WebElement> submenu = driver_ch.findElements(By.xpath("//li[@id='app-']["+(i+1)+"]/ul/li"));
+                for (int j = 0; j < submenu.size(); j++) {
+                    WebElement submenuItem = driver_ch.findElement(By.xpath(".//li[@id='app-']["+(i+1)+"]/ul/li["+(j+1)+"]"));
                     submenuItem.click();
                     Assert.assertTrue("H1 element not found", isElementPresent(By.cssSelector("h1")));
                 }
-            } else {
-                Assert.assertTrue("H1 element not found", isElementPresent(By.cssSelector("h1")));
             }
-        }
-
-    }
+        Assert.assertTrue("H1 element not found", isElementPresent(By.cssSelector("h1")));
+            }
 
     private boolean isElementPresent(By h1) {
-        return true;
+        return driver_ch.findElements(h1).size() > 0;
     }
 
 
     @After
     public void stop_ch() {
+
         driver_ch.quit();
     }
 }
