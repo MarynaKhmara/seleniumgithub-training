@@ -39,7 +39,6 @@ public class Task_5 {
 
         mainName.click();
 
-
         WebElement itemName = driver_ch.findElement(By.cssSelector("[id=box-product]"));
         String productName2 = itemName.findElement(By.cssSelector(".title")).getText();
         String regularItemPrice = driver_ch.findElement(By.cssSelector(".regular-price")).getText();

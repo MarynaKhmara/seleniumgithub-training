@@ -17,8 +17,7 @@ public class Task_4 {
 
     WebDriver driver_ch;
 
-
-
+    
     @Before
     public void start() {
         driver_ch = new ChromeDriver();
